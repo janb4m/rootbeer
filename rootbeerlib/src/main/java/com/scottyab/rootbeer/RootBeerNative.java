@@ -14,8 +14,8 @@ public class RootBeerNative {
      */
     static {
         try {
-            System.loadLibrary("tool-checker");
-            libraryLoaded = true;
+            /*System.loadLibrary("tool-checker");
+            libraryLoaded = true;*/
         }
         catch (UnsatisfiedLinkError e){
             QLog.e(e);
