@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
+
+    defaultConfig {
+        applicationId "com.scottyab.rootbeer.sample"
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
+        versionCode 7
+        versionName "0.7"
+    }
+
+    //check if the keystore details are defined in gradle.properties (this is so the key is not in github)
+    if (project.hasProperty("ROOTBEER_SAMPLE_STORE")) {
+        signingConfigs {
+            //from ~/user/.gradle/gradle.properties
+            release {
+                storeFile file(ROOTBEER_SAMPLE_STORE)
+                keyAlias ROOTBEER_SAMPLE_KEY
+                storePassword ROOTBEER_SAMPLE_STORE_PASS
+                keyPassword ROOTBEER_SAMPLE_KEY_PASS
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+        }
+        release {
+            if (project.hasProperty("ROOTBEER_SAMPLE_STORE")) {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':rootbeerlib')
+    implementation "com.android.support:appcompat-v7:$supportLibVer"
+    implementation "com.android.support:design:$supportLibVer"
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'uk.co.barbuzz:beerprogressview:0.0.4'
+}
