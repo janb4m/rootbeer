@@ -59,20 +59,22 @@ public class RootBeer {
     }
 
     /**
-     * same as above, only returns int instead of boolean to indicate the reason when root is detected
-     * 0 means root was not detected
+     * same as above, only returns a list of reasons instead of boolean to indicate why root was detected
+     *
+     * @return reasons why the check failed or empty when no root detected
      */
-    public int isRootedWithoutBusyBoxCheckWithReason() {
-        if (detectRootManagementApps()) return 1;
-        if (detectPotentiallyDangerousApps()) return 2;
-        if (checkForBinary("su")) return 3;
-        if (checkForDangerousProps()) return 4;
-        if (checkForRWPaths()) return 5;
-        if (detectTestKeys()) return 6;
-        if (checkSuExists()) return 7;
-        if (checkForRootNative()) return 8;
-        if (checkForMagiskBinary()) return 9;
-        return 0;
+    public ArrayList<Integer> isRootedWithoutBusyBoxCheckWithReason() {
+        ArrayList<Integer> failedChecks = new ArrayList<>();
+        if (detectRootManagementApps()) failedChecks.add(1);
+        if (detectPotentiallyDangerousApps()) failedChecks.add(2);
+        if (checkForBinary("su")) failedChecks.add(3);
+        if (checkForDangerousProps()) failedChecks.add(4);
+        if (checkForRWPaths()) failedChecks.add(5);
+        if (detectTestKeys()) failedChecks.add(6);
+        if (checkSuExists()) failedChecks.add(7);
+        if (checkForRootNative()) failedChecks.add(8);
+        if (checkForMagiskBinary()) failedChecks.add(9);
+        return failedChecks;
     }
 
     /**
